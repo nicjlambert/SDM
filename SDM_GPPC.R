@@ -5,42 +5,21 @@
 
 # file: SDM_GPPC.R
 # title: System Dynamics Model of General Practitioner Primary Care
-# author:  
 # summary: Predictive modelling (what will happen next if...?) and simulation (what could happen...?)
 # model type: conditional, imprecise projections of dynamic behaviour
 
-pacman::p_load('deSolve','ggplot2','tictoc','scales','raustats')
+pacman::p_load('deSolve',
+               'ggplot2',
+               'tictoc',
+               'scales',
+               #'raustats',  
+               'here')
 
-# start timer
-tic() 
-# setup simulation times and time steps
-begin <- 2017
-end <- 2066
-timeStep <- 1
+source(here::here("settings.yaml"))
+
 # create time vector
 simtime <- seq(begin, end, by = timeStep)
-# create stocks vector with initial values. Inflows and outflows
-# can increase or decrease the stock's value over time
-stocks  <- c(sPopulation = 25900000,
-             sGeneralPractitioners = 36490,
-             sPatientsBeingTreated = 147934232,
-             sExpectedRetirement = 912.25
-)
-# create exogenous vector
-auxs    <- c(aCrudeBirthRate = 12.6 / 1000,   # inflow rate property: fBirths per 1,000 population 
-             aCrudeDeathRate = 6.3 / 1000,    # outflow rate property: fDeaths per 1,000 population
-             aAverageGPVisits = 6.5,          # average number of attendances on population per year
-             aStandardGPProductivity = 22,    # variables that model capacity: average patients seen in work day
-             aStandardGPWorkYear = 250,       # variables that model capacity: average working days in work year
-             aTargetCompletionTime = 1,
-             aAverageGPCareerDuration = 40,
-             aCrudefNetOverseasMigrationRate = 9.67 / 1000,
-             aDesiredGeneralPractitionersPer1000sPopulation = 1.55 / 1000,
-             aAdjustmentTime = 5,
-             WorkYearFlag = 1,
-             ProductivtyFlag = 1,
-             DC = 3
-)
+
 # model function
 model <- function(simtime, stocks, auxs){
   with(as.list(c(stocks, auxs)),{ 
@@ -205,7 +184,6 @@ model <- function(simtime, stocks, auxs){
 # The Model function, takes 4 arguments from ode()
 o <-data.frame(ode(y=stocks, times=simtime, func = model, 
                    parms=auxs, method="euler"))
-toc()
 
 o_tidyr <- o %>% pivot_longer(-time, names_to = "key", values_to = "value")
 
