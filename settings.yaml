@@ -6,9 +6,15 @@ timeStep <- 1
 # create stocks vector with initial values. Inflows and outflows
 # can increase or decrease the stock's value over time
 stocks  <- c(sPopulation = 25900000,
-             sGeneralPractitioners = 36490,
-             sPatientsBeingTreated = 147934232,
-             sExpectedRetirement = 912.25
+             sGeneralPractitioners <- 36490,
+             sPatientsBeingTreated <- 147934232,
+             sExpectedRetirement <- 912.25,
+             sPopulation0_14 <- 1000000 
+             sPopulation15_39 <- 1500000
+             sPopulation40_64 <- 2000000
+             sPopulation65_plus <- 500000
+
+ 
 )
 # create exogenous vector
 auxs    <- c(aCrudeBirthRate = 12.6 / 1000,    
