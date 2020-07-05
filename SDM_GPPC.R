@@ -3,19 +3,8 @@
 ## ========================================================
 
 
-# file: SDM_GPPC.R
-# title: System Dynamics Model of General Practitioner Primary Care
-# summary: Predictive modelling (what will happen next if...?) and simulation (what could happen...?)
-# model type: conditional, imprecise projections of dynamic behaviour
-
-pacman::p_load('deSolve',
-               'ggplot2',
-               'tictoc',
-               'scales',
-               #'raustats',  
-               'here')
-
-source(here::here("settings.yaml"))
+source(here::here("SDM/dependencies.R"))
+source(here::here("/SDM/settings.yaml"))
 
 # create time vector
 simtime <- seq(begin, end, by = timeStep)
@@ -51,17 +40,7 @@ model <- function(simtime, stocks, auxs){
                                    method = "linear",
                                    yleft = 0.62, yright = 1.4) 
     
-    
-    x.time <- ages_list_0_14$time
-    y.values <- ages_list_0_14$values
-    
-    func.erp <- approxfun(x = x.time,
-                          y = y.values,
-                          method = "linear",
-                          yleft = min(y.values), yright = max(y.values))  
-    
-    
-    erp <- func.erp(simtime)
+  
     
     
     # flow which moves a material between stocks. For sPopulation, fDeaths is an outflow 
@@ -143,7 +122,7 @@ model <- function(simtime, stocks, auxs){
     CERR <- Discrepancy / DC
     sExpectedRetirement <- CERR
     
-    # 
+    
     AverageDelay = fPatientVisits / fCompletedVisits
     WorkYearRatio <- WorkYear / aStandardGPWorkYear
     ProductivityRatio <- Productivity / aStandardGPProductivity
@@ -161,7 +140,8 @@ model <- function(simtime, stocks, auxs){
                  fEntries = fEntries,
                  SystemPressure = SystemPressure, 
                  SystemPressureFlag = SystemPressureFlag,
-                 GF = aCrudeBirthRate,DF = aCrudeDeathRate, 
+                 GF = aCrudeBirthRate,
+                 DF = aCrudeDeathRate, 
                  GP = aDesiredGeneralPractitionersPer1000sPopulation, 
                  WorkYear = WorkYear,
                  Productivity = Productivity,
@@ -182,8 +162,11 @@ model <- function(simtime, stocks, auxs){
 # in order to simulate the model needs a set of equations that describe the relationship. The are
 # defined in the model above and called in the ode 'func'
 # The Model function, takes 4 arguments from ode()
-o <-data.frame(ode(y=stocks, times=simtime, func = model, 
-                   parms=auxs, method="euler"))
+o <-data.frame(ode(y=stocks, 
+                   times=simtime, 
+                   func = model, 
+                   parms=auxs, 
+                   method="euler"))
 
 o_tidyr <- o %>% pivot_longer(-time, names_to = "key", values_to = "value")
 
