@@ -2,22 +2,26 @@ library(shiny)
 library(ggplot2)
 library(scales)
 library(gridExtra)
-source("SDM_GPPC.R")
+library(viridis)
+source("SDM.R")
 
 # Setting up the client (page elements appear in order specified)
 ui <- fluidPage(
-  titlePanel("System Dynamics Modeling: The Health Sector Model"),
+  titlePanel("System Dynamics representation of the Health Sector"),
   a("See GitHub for resources", href="https://github.com/MaguireMaName/SDM/",target="_blank"),
   br(),br(),
   sidebarLayout(
     sidebarPanel(
-      sliderInput("sPopulation0_14", "0 to 14", min=0, max=5000000, value=1000000, step=50000),
-      sliderInput("sPopulation15_39", "15 to 39", min=0, max=5000000, value=1500000, step=50000),
-      sliderInput("sPopulation40_64",  "40 to 64", min=0, max=5000000, value=2000000, step=50000),
-      sliderInput("sPopulation65_plus",  "65 plus", min=0, max=5000000, value=500000, step=25000),
+      
       sliderInput("aCrudeBirthRate",  "Birth rate", min=0, max=0.1, value=0.02, step=0.01),
       sliderInput("aCrudeDeathRate",  "Death rate", min=0, max=0.01, value=0.007, step=0.001),
-      sliderInput("SystemPressureFlag",  "System Pressure", min=0, max=1, value=0, step=1),
+      #sliderInput("SystemPressureFlag",  "System Pressure", min=0, max=1, value=0, step=1),
+      sliderInput("aStandardGPProductivity",  "Productivity", min=20, max=30, value=24, step=1),
+      sliderInput("aAverageGPCareerDuration",  "Career Duration", min=20, max=50, value=40, step=10),     
+      sliderInput("aStandardGPWorkYear",  "Work Year", min=200, max=360, value=250, step=10),
+      #numericInput("aDesiredGPsPer1000sPopulation",  "Desired GPs per 1000 population:", value = 0.0008),
+      checkboxInput("SystemPressureFlag", "Allow response to system pressure", FALSE)
+      
     ),
     mainPanel(
       plotOutput("plot"),
@@ -32,6 +36,7 @@ server <- function(input, output) {
   data <- reactive({
     cat(file=stderr(), "Function data (reactive function)...\n")
     # setup simulation times and time steps
+    
     begin = 2017
     end = 2053
     timeStep = 1
@@ -41,10 +46,10 @@ server <- function(input, output) {
     # can increase or decrease the stock's value over time
     stocks  <- c(
 
-      sPopulation0_14 = as.numeric(input$sPopulation0_14), 
-      sPopulation15_39 = as.numeric(input$sPopulation15_39),
-      sPopulation40_64 = as.numeric(input$sPopulation40_64),
-      sPopulation65_plus = as.numeric(input$sPopulation65_plus),
+      sPopulation0_14 = 1000000, 
+      sPopulation15_39 = 1500000,
+      sPopulation40_64 = 2000000,
+      sPopulation65_plus = 500000,
       sGeneralPractitioners = 4000,
       ExpectedRetirement = 100,
       sPatientsBeingTreated = 24000000
@@ -57,10 +62,10 @@ server <- function(input, output) {
                   aAverageGPVisits15_39 = 4, 
                   aAverageGPVisits40_64 = 5, 
                   aAverageGPVisits65plus = 10, 
-                  aStandardGPProductivity = 24,    
-                  aStandardGPWorkYear = 250,       
+                  aStandardGPProductivity = as.numeric(input$aStandardGPProductivity),    
+                  aStandardGPWorkYear = as.numeric(input$aStandardGPWorkYear),       
                   aTargetCompletionTime = 1,
-                  aAverageGPCareerDuration = 40,
+                  aAverageGPCareerDuration = as.numeric(input$aAverageGPCareerDuration),
                   aDesiredGPsPer1000sPopulation = 0.8 / 1000,
                   aAdjustmentTime = 5,
                   WorkYearFlag = 1,
@@ -84,52 +89,56 @@ server <- function(input, output) {
     o <<- data()
     
     p1 <-ggplot()+
-      geom_line(data=o,aes(time, sPopulation, color="Population")) +
+      geom_line(data=o,aes(time, sPopulation, color="Population"), size=1.15) +
       geom_point() +
-      scale_y_continuous(labels = comma)+
-      ylab("System Stocks")+
+      scale_y_continuous(labels = comma) +
+      scale_color_viridis(begin = .4, end = .9, option = "magma", discrete=TRUE) +
       xlab("Year") +
       labs(color="")+
-      theme(legend.position="bottom") +
+      theme(legend.position="top") +
       theme_minimal()
     
      p2 <-ggplot()+
-      geom_line(data=o,aes(time, DesiredGPs, color="DesiredGPs")) +
-       geom_line(data=o,aes(time, sGeneralPractitioners, color="GPs")) +
-       scale_y_continuous(labels = comma)+
+       geom_line(data=o,aes(time, DesiredGPs, color="DesiredGPs"), linetype="dashed", size=1.15) +
+       geom_line(data=o,aes(time, sGeneralPractitioners, color="GPs"), size=1.15) +
+       scale_y_continuous(labels = comma) +
+       scale_color_viridis(begin = .4, end = .9, option = "magma", discrete=TRUE) +
        ylab("GPs (Target & Actual")+
        xlab("Year") +
        labs(color="")+
-       theme(legend.position="bottom") +
+       theme(legend.position="none") +
        theme_minimal()
      
      p3 <-ggplot()+
-       geom_line(data=o,aes(time, GeneralPractitionerDemand, color="Demand")) +
-       scale_y_continuous(labels = comma)+
+       geom_line(data=o,aes(time, GeneralPractitionerDemand, color="Demand"), size=1.15) +
+       scale_y_continuous(labels = comma) +
+       scale_color_viridis(begin = .3, end = .9, option = "magma", discrete=TRUE) +
        ylab("System Stocks")+
        xlab("Year") +
        labs(color="")+
-       theme(legend.position="bottom") +
+       theme(legend.position="none") +
        theme_minimal()
      
      p4 <-ggplot()+
-       geom_line(data=o,aes(time, StandardAnnualCompletedVisits, color="Standard")) +
-       geom_line(data=o,aes(time, PotentialCompletedVisits, color="Potential")) +
-       geom_line(data=o,aes(time, DesiredCompletedVisits, color="Desired")) +
-       scale_y_continuous(labels = comma)+
+       geom_line(data=o,aes(time, StandardAnnualCompletedVisits, color="Standard"), size=1.15) +
+       geom_line(data=o,aes(time, PotentialCompletedVisits, color="Potential"), size=1.15) +
+       geom_line(data=o,aes(time, DesiredCompletedVisits, color="Desired"), size=1.15) +
+       scale_y_continuous(labels = comma) +
+       scale_color_viridis(begin = .4, end = .9, option = "magma", discrete=TRUE) +
        ylab("System Stocks")+
        xlab("Year") +
        labs(color="")+
-       theme(legend.position="bottom") +
+       theme(legend.position="none") +
        theme_minimal()
      
      p5 <-ggplot()+
-       geom_line(data=o,aes(time, SystemPressure, color="SystemPressure")) +
-       scale_y_continuous(labels = comma)+
+       geom_line(data=o,aes(time, SystemPressure, color="SystemPressure"), size=1.15) +
+       scale_y_continuous(labels = comma) +
+       scale_color_viridis(begin = .4, end = .9, option = "magma", discrete=TRUE) +
        ylab("System Stocks")+
        xlab("Year") +
        labs(color="")+
-       theme(legend.position="bottom") +
+       theme(legend.position="none") +
        theme_minimal()
     
     grid.arrange(p1,
