@@ -12,11 +12,11 @@ To clone this repository, in the terminal:
 
 ## Contents
 
-| File           | Description |
-|----------------|-------------|
-| app.R          | loreum      |
-| dependencies.R | loreum      |
-| SDM.R          | loreum      |
+|File           | Description |
+|---------------|-------------|
+| app.R         | loreum      |
+| dependencies.R| loreum      |
+| SDM.R         | loreum      |
 
 ## Attributions:
 
