@@ -13,10 +13,10 @@ To clone this repository, in the terminal:
 ## Contents
 
 |File           | Description |
-|---------------|-------------|
-| app.R         | loreum      |
-| dependencies.R| loreum      |
-| SDM.R         | loreum      |
+|:--------------|:------------|
+| app.R         | the Shiny application      |
+| dependencies.R| pacman is used to install and load required packages      |
+| SDM.R         | the System Dynamc Model      |
 
 ## Attributions:
 
