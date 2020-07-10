@@ -5,5 +5,8 @@ pacman::p_load('deSolve',
                'tictoc',
                'scales',
                'here',
-               'dplyr'
+               'dplyr',
+               'viridis',
+               'shiny',
+               'gridExtra'
 )

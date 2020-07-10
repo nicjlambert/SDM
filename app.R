@@ -1,8 +1,5 @@
-library(shiny)
-library(ggplot2)
-library(scales)
-library(gridExtra)
-library(viridis)
+
+source("dependencies.R")
 source("SDM.R")
 
 # Setting up the client (page elements appear in order specified)

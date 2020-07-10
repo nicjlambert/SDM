@@ -4,9 +4,6 @@
 
 options(scipen = 999)
 
-source("dependencies.R")
-source(here::here("settings.yaml"))
-
 func <- function(times, stocks, auxs){
   with(as.list(c(stocks, auxs)),{ 
     
