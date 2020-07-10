@@ -1,5 +1,7 @@
-if (!require('pacman')) install.packages('pacman')
 # pacman handles the installation and loading of packages
+
+if (!require('pacman')) install.packages('pacman')
+
 pacman::p_load('deSolve',
                'ggplot2',
                'tictoc',
@@ -8,5 +10,6 @@ pacman::p_load('deSolve',
                'dplyr',
                'viridis',
                'shiny',
+               'shinythemes',
                'gridExtra'
 )

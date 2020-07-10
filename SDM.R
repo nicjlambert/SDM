@@ -94,10 +94,7 @@ func <- function(times, stocks, auxs){
       func.Productivity(SystemPressure) * aStandardGPProductivity else{
         aStandardGPProductivity
       }
-    
-    # effect the productivity when system pressure flag active
-    Productivity <- func.Productivity(SystemPressure) * aStandardGPProductivity
-    
+
     PotentialCompletedVisits <- sGeneralPractitioners * Productivity * WorkYear
     
     CompletedVisits <- pmin(PotentialCompletedVisits, DesiredCompletedVisits)
@@ -129,7 +126,9 @@ func <- function(times, stocks, auxs){
                  DesiredCompletedVisits = DesiredCompletedVisits,
                  CompletedVisits = CompletedVisits,
                  WorkYear = WorkYear,
-                 Productivity = Productivity
+                 Productivity = Productivity,
+                 aStandardGPProductivity = aStandardGPProductivity
+
                  
 
     ))   

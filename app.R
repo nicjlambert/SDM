@@ -4,19 +4,20 @@ source("SDM.R")
 
 # Setting up the client (page elements appear in order specified)
 ui <- fluidPage(
+  
+  #shinythemes::themeSelector(),  # <---   to enable a theme selector in the UI
   titlePanel("System Dynamics representation of the Health Sector"),
   a("See GitHub for resources", href="https://github.com/MaguireMaName/SDM/",target="_blank"),
+  
   br(),br(),
   sidebarLayout(
     sidebarPanel(
       
       sliderInput("aCrudeBirthRate",  "Birth rate", min=0, max=0.1, value=0.02, step=0.01),
       sliderInput("aCrudeDeathRate",  "Death rate", min=0, max=0.01, value=0.007, step=0.001),
-      #sliderInput("SystemPressureFlag",  "System Pressure", min=0, max=1, value=0, step=1),
       sliderInput("aStandardGPProductivity",  "Productivity", min=20, max=30, value=24, step=1),
       sliderInput("aAverageGPCareerDuration",  "Career Duration", min=20, max=50, value=40, step=10),     
       sliderInput("aStandardGPWorkYear",  "Work Year", min=200, max=360, value=250, step=10),
-      #numericInput("aDesiredGPsPer1000sPopulation",  "Desired GPs per 1000 population:", value = 0.0008),
       checkboxInput("SystemPressureFlag", "Allow response to system pressure", FALSE)
       
     ),
@@ -83,6 +84,7 @@ server <- function(input, output) {
   output$plot <- renderPlot({
     cat(file=stderr(), "Function output$plot::renderPlot...\n")
     
+    # reactive function that retrieves the current data
     o <<- data()
     
     p1 <-ggplot()+
@@ -137,6 +139,7 @@ server <- function(input, output) {
        labs(color="")+
        theme(legend.position="none") +
        theme_minimal()
+     
     
     grid.arrange(p1,
                  p2, 
