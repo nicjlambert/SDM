@@ -92,6 +92,7 @@ server <- function(input, output) {
       geom_point() +
       scale_y_continuous(labels = comma) +
       scale_color_viridis(begin = .4, end = .9, option = "magma", discrete=TRUE) +
+      ylab("Population")+
       xlab("Year") +
       labs(color="")+
       theme(legend.position="top") +
@@ -112,7 +113,7 @@ server <- function(input, output) {
        geom_line(data=o,aes(time, GeneralPractitionerDemand, color="Demand"), size=1.15) +
        scale_y_continuous(labels = comma) +
        scale_color_viridis(begin = .3, end = .9, option = "magma", discrete=TRUE) +
-       ylab("System Stocks")+
+       ylab("Demand")+
        xlab("Year") +
        labs(color="")+
        theme(legend.position="none") +
@@ -124,7 +125,7 @@ server <- function(input, output) {
        geom_line(data=o,aes(time, DesiredCompletedVisits, color="Desired"), size=1.15) +
        scale_y_continuous(labels = comma) +
        scale_color_viridis(begin = .4, end = .9, option = "magma", discrete=TRUE) +
-       ylab("System Stocks")+
+       ylab("Patient visits")+
        xlab("Year") +
        labs(color="")+
        theme(legend.position="none") +
