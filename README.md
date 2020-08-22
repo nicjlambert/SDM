@@ -1,6 +1,6 @@
 # System Dynamics Model
 
-This is an implementation of a model from a paper: Duggan, Jim. System Dynamics Modeling with R (Lecture Notes in Social Networks) 
+In this repository I implement a model from a paper: Duggan, Jim. System Dynamics Modeling with R (Lecture Notes in Social Networks) 
 
 System Dynamics representation of the Health Sector using Shiny. Systems thinking is a departure from linear thinking, as system dynamics attempts to understand nonlinear behaviour of participants over time using stocks, flows, feedback loops, table functions and other functions (eg time delays). 
 
