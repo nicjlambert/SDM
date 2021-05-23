@@ -1,0 +1,12 @@
+name: system-dynamics
+title: system-dynamics
+username:
+account: maguiremaname
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4169980
+bundleId: 4629073
+url: https://nicjlambert.shinyapps.io/system-dynamics/
+when: 1621735199.00803
+asMultiple: FALSE
+asStatic: FALSE

@@ -5,9 +5,8 @@ source("SDM.R")
 # Setting up the client (page elements appear in order specified)
 ui <- fluidPage(
   
-  #shinythemes::themeSelector(),  # <---   to enable a theme selector in the UI
+
   titlePanel("System Dynamics representation of the Health Sector"),
-  a("See GitHub for resources", href="https://github.com/MaguireMaName/SDM/",target="_blank"),
   
   br(),br(),
   sidebarLayout(

@@ -2,14 +2,11 @@
 
 if (!require('pacman')) install.packages('pacman')
 
-pacman::p_load('deSolve',
-               'ggplot2',
-               'tictoc',
-               'scales',
-               'here',
-               'dplyr',
-               'viridis',
-               'shiny',
-               'shinythemes',
-               'gridExtra'
-)
+
+library(deSolve)
+library(ggplot2)
+library(scales)
+library(tidyverse)
+library(shiny)
+library(gridExtra)
+

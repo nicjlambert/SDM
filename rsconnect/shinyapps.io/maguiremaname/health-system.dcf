@@ -1,0 +1,12 @@
+name: health-system
+title: health-system
+username:
+account: maguiremaname
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3826483
+bundleId: 4374560
+url: https://maguiremaname.shinyapps.io/health-system/
+when: 1616295329.61392
+asMultiple: FALSE
+asStatic: FALSE

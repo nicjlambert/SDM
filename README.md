@@ -1,12 +1,15 @@
 # System Dynamics Model
 
-In this repository I implement a model from a paper: Duggan, Jim. System Dynamics Modeling with R (Lecture Notes in Social Networks) 
+An implemention of the model from Duggan's paper: System Dynamics Modeling with R (Lecture Notes in Social Networks), Duggan, Jim.
 
-System Dynamics representation of the Health Sector using Shiny. Systems thinking is a departure from linear thinking, as system dynamics attempts to understand nonlinear behaviour of participants over time using stocks, flows, feedback loops, table functions and other functions (eg time delays). 
+A system dynamics representation of the health sector using Shiny. Systems 
+thinking is a departure from linear thinking, as system dynamics attempts to 
+understand nonlinear behaviour of participants over time using stocks, flows, 
+feedback loops, table functions and other functions such as time delays. 
 
 To clone this repository, in the terminal:
 
-`git clone Shttps://github.com/MaguireMaName/SDM.git`
+`git clone https://github.com/MaguireMaName/SDM.git`
 
 `cd SDM`
 
