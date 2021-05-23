@@ -21,6 +21,11 @@ To clone this repository, in the terminal:
 | dependencies.R| pacman is used to install and load required packages      |
 | SDM.R         | the System Dynamc Model      |
 
+
+![](figures/deliverable.PNG)
+
+## Contents
+
 ## Attributions:
 
  - Duggan, Jim. System Dynamics Modeling with R (Lecture Notes in Social Networks) Springer International Publishing. Kindle Edition.
